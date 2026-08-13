@@ -1,0 +1,10 @@
+welcome = Welcome, { $name }!
+welcome-description = I am a helpful bot. Choose an option below to get started.
+change-language = 🌐 Change language
+language-title = Choose your language:
+language-en = English
+language-fa = فارسی
+language-updated = Language updated successfully.
+commands-title = Available commands:
+commands-start = Start the bot
+commands-language = Change language

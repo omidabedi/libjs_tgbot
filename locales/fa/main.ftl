@@ -1,0 +1,10 @@
+welcome = خوش آمدید، { $name }!
+welcome-description = من یک ربات کاربردی هستم. برای شروع یکی از گزینه‌های زیر را انتخاب کنید.
+change-language = 🌐 تغییر زبان
+language-title = زبان خود را انتخاب کنید:
+language-en = انگلیسی
+language-fa = فارسی
+language-updated = زبان با موفقیت تغییر کرد.
+commands-title = فرمان‌های موجود:
+commands-start = شروع ربات
+commands-language = تغییر زبان
