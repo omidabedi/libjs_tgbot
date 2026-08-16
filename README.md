@@ -48,4 +48,4 @@ await bot.start();
 
 `createBot()` returns `{ bot, close }`. The consuming application owns the process lifecycle and should always call `close()` during shutdown. Configuration overrides take precedence over environment variables, so separate projects can use different database names, locales, and proxy settings.
 
-Translations live in `locales/<locale>/*.ftl`; complex tokenized messages belong in `templates/`. Each command is registered from its own module under `app/commands/`.
+Translations live in `locales/<locale>/*.ftl`; complex tokenized messages belong in `templates/`. Each command is registered from its own module under `app/commands/`. See the detailed [documentation](./doc/README.md) for configuration, embedding, storage, proxy, and operations guidance.

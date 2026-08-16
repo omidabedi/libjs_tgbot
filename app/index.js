@@ -1,4 +1,4 @@
-import { Bot } from 'grammy';
+import { Bot, InputFile } from 'grammy';
 import { I18n } from '@grammyjs/i18n';
 import { loadConfig } from '../libs/config/index.js';
 import { createRedisClient } from '../libs/redis/client.js';
@@ -12,10 +12,10 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 /** Create and configure a Telegram bot. Call `start()` on the returned object. @param {Partial<import('../libs/config/types.js').BotConfig>} [overrides] @returns {Promise<{bot: import('grammy').Bot, close: () => Promise<void>}>} */
+export { InputFile };
+
 export async function createBot(overrides = {}) {
-  const explicitOverrides = Object.fromEntries(Object.entries(overrides).filter(([, value]) => value !== undefined));
-  const configEnv = { ...process.env, ...(explicitOverrides.token ? { BOT_API: explicitOverrides.token } : {}) };
-  const config = { ...loadConfig(configEnv), ...explicitOverrides };
+  const config = { ...loadConfig({ ...process.env, ...overrides }), ...overrides };
   const redis = createRedisClient(config);
   let mongo;
   try {
@@ -41,10 +41,16 @@ export async function createBot(overrides = {}) {
   bot.use(new I18n({ directory: localeDirectory, defaultLocale: config.defaultLocale, localeNegotiator: (ctx) => ctx.state.locale ?? ctx.from?.language_code ?? config.defaultLocale }));
   const languages = config.locales.map((code) => ({ code, flag: code === 'fa' ? '🇮🇷' : code === 'en' ? '🇬🇧' : '🌐' }));
   registerCommands(bot, { ...config, languages }, users);
-  await Promise.all(config.locales.map((locale) => bot.api.setMyCommands([
-    { command: 'start', description: locale === 'fa' ? 'شروع ربات' : 'Start the bot' },
-    { command: 'language', description: locale === 'fa' ? 'تغییر زبان' : 'Change language' },
-  ], { language_code: locale })));
+  await Promise.all(config.locales.map((locale) => {
+    try {
+      bot.api.setMyCommands([
+        { command: 'start', description: locale === 'fa' ? 'شروع ربات' : 'Start the bot' },
+        { command: 'language', description: locale === 'fa' ? 'تغییر زبان' : 'Change language' },
+      ], { language_code: locale })
+    } catch (e) {
+
+    }
+  } ));
   installErrorHandler(bot);
   return { bot, close: async () => { await bot.stop(); await redis.quit(); await mongo.client.close(); } };
 }

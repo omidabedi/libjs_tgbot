@@ -5,7 +5,7 @@ export function createRedisClient(config) {
   return new Redis(config.redisUrl, {
     lazyConnect: true,
     enableOfflineQueue: false,
-    maxRetriesPerRequest: 1,
+    maxRetriesPerRequest: 3,
     retryStrategy: () => null,
   });
 }

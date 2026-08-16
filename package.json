@@ -1,6 +1,6 @@
 {
   "name": "libjs_tgbot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "telegram bot libdev",
   "homepage": "https://github.com/omidabedi/libjs_tgbot#readme",
   "bugs": {
@@ -16,6 +16,7 @@
   "exports": {
     ".": "./app/index.js",
     "./config": "./libs/config/index.js",
+    "./redis": "./libs/redis/client.js",
     "./telegram": "./libs/telegram/client.js"
   },
   "scripts": {
